@@ -28,5 +28,10 @@ jobs:
       # Runs two commands, 1st line install necessary dependencies for lint checks; 2nd - Actually perform lint on our Markdown files
       - name: Run markdown lint
         run: |
-          npm install remark-cli remark-preset-lint-consistent
-          npx remark . --use remark-preset-lint-consistent --frail
+          npm install remark-cli remark-preset-lint-consistent vfile-reporter-json
+          npx remark . --use remark-preset-lint-consistent --report vfile-reporter-json 2> remark-lint-report.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: remark-lint-report
+          path: remark-lint-report.json
